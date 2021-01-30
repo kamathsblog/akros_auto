@@ -21,17 +21,19 @@ public:
     EdgeAvoidance();
     
 private:
-    void probCallback(const sensor_msgs::Joy::ConstPtr& joy); //change message type
+    //void probCallback(const sensor_msgs::Joy::ConstPtr& joy); //change message type
+    
+    int l_scale, a_scale;
     
     ros::NodeHandle nh;
 
-    ros::Subscriber dl_sub;
+    //ros::Subscriber dl_sub;
     ros::Publisher  autovel_pub;
 };
 
 EdgeAvoidance::EdgeAvoidance():
     l_scale(7),
-    a_scale(6),
+    a_scale(6)
 {
     if(nh.hasParam("/edge_avoidance")){
         nh.param("lpad_ud",  l_scale, l_scale); 
@@ -41,10 +43,10 @@ EdgeAvoidance::EdgeAvoidance():
         
     autovel_pub  = nh.advertise<geometry_msgs::Twist>("/auto_node/cmd_vel", 1);
     
-    dl_sub  = nh.subscribe<sensor_msgs::Joy>("joy", 5, &EdgeAvoidance::probCallback, this); //change message type       
+    //dl_sub  = nh.subscribe<sensor_msgs::Joy>("joy", 5, &EdgeAvoidance::probCallback, this); //change message type       
 }
 
-void EdgeAvoidance::probCallback(const sensor_msgs::Joy::ConstPtr& joy) //change message type
+/*void EdgeAvoidance::probCallback(const sensor_msgs::Joy::ConstPtr& joy) //change message type
 {
     geometry_msgs::Twist twist;
     
@@ -58,7 +60,7 @@ void EdgeAvoidance::probCallback(const sensor_msgs::Joy::ConstPtr& joy) //change
         twist.angular.z = 1.0*a_scale;
     }
     autovel_pub.publish(twist);
-}
+}*/
 
 int main(int argc, char** argv)
 {
